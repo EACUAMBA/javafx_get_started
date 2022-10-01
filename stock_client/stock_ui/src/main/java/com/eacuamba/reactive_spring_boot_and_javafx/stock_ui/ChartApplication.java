@@ -14,20 +14,29 @@ public class ChartApplication extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        System.out.println("Start...");
         //Vamos [ublicar um event assim que o stage estiver pronto para ser utilizado, aqui utilizamos o publicador de eventos do spring.
         applicationContext.publishEvent(new StageReadyEvent(stage));
     }
 
     @Override
     public void init() throws Exception {
+        System.out.println("Init....");
         //Estamos criando o nosso contexto da aplicação, este metodo é executado antes do start.
         applicationContext = new SpringApplicationBuilder(StockUiApplication.class).run();
+    }
+
+    @Override
+    public void stop() throws Exception {
+        System.out.println("Stop...");
+        this.applicationContext.close();
     }
 
     //Criamos uma classe que extend a AppEvent do spring com o objectivo de se tornar um evento, este evento recebe  um Stage quando for criado.
     static class StageReadyEvent extends ApplicationEvent {
         public StageReadyEvent(Stage stage) {
             super(stage);
+            System.out.println("Event {StageReadyEvent} created...");
         }
 
         //Metodo que retorna o evento.
