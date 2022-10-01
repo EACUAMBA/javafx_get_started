@@ -6,12 +6,19 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="introduction_to_javafx_by_baeldung.controller.Search"
+            fx:controller="introduction_to_javafx_by_baeldung.controller.SearchController"
             >
+    <padding>
+        <Insets bottom="16" top="16" left="16" right="16"/>
+    </padding>
     <children>
         <HBox id="HBox" alignment="CENTER" spacing="5.0">
+            <padding>
+                <Insets top="16" left="16" right="16"/>
+            </padding>
             <children>
                 <Label text="Search Text:"/>
                 <TextField fx:id="searchField"/>
