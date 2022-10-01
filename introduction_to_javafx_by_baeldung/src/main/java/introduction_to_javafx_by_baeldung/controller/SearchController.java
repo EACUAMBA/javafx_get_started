@@ -3,6 +3,7 @@ package introduction_to_javafx_by_baeldung.controller;
 import introduction_to_javafx_by_baeldung.model.Person;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -10,6 +11,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
+
+import java.util.stream.Collectors;
 
 public class SearchController {
 
@@ -40,7 +43,25 @@ public class SearchController {
     }
 
     private void loadData() {
+        final String filters = this.searchField.getText();
+        Task<ObservableList<Person>> observableListTask = new Task<ObservableList<Person>>() {
+            @Override
+            protected ObservableList<Person> call() throws Exception {
+                this.updateMessage("Working...");
+                return FXCollections.observableArrayList(personObservableList.stream()
+                        .filter(p-> p.getName().getValue().toLowerCase().contains(filters.toLowerCase()))
+                        .collect(Collectors.toList()));
+            }
+        };
 
+        observableListTask.setOnSucceeded(event -> {
+            ObservableList<Person> observableListTaskValue = observableListTask.getValue();
+            this.tableView.setItems(observableListTaskValue);
+        });
+
+        Thread thread = new Thread(observableListTask);
+        thread.setDaemon(Boolean.TRUE);
+        thread.start();
     }
 
     public void initTable() {
