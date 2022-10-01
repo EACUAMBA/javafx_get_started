@@ -13,6 +13,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class SearchController {
@@ -44,7 +46,9 @@ public class SearchController {
             }
         });
 
-        personObservableList = FXCollections.observableArrayList();
+        List<Person> people = this.buildPeople(10);
+
+        personObservableList = FXCollections.observableArrayList(people);
         personSearchResultObservableList = FXCollections.observableArrayList(this.personObservableList);
         this.initTable();
     }
@@ -56,7 +60,7 @@ public class SearchController {
             protected ObservableList<Person> call() throws Exception {
                 this.updateMessage("Working...");
                 return FXCollections.observableArrayList(personObservableList.stream()
-                        .filter(p-> p.getName().getValue().toLowerCase().contains(filters.toLowerCase()))
+                        .filter(p-> p.getName().toLowerCase().contains(filters.toLowerCase()))
                         .collect(Collectors.toList()));
             }
         };
@@ -79,10 +83,19 @@ public class SearchController {
         TableColumn<Person, String> name = new TableColumn<>("Name");
         name.setCellValueFactory(new PropertyValueFactory<Person, String>("name"));
 
-        TableColumn<Person, Boolean> isEmployed = new TableColumn<>("Is employed?");
-        isEmployed.setCellValueFactory(new PropertyValueFactory<Person, Boolean>("isEmployed"));
+        TableColumn<Person, String> isEmployed = new TableColumn<>("Is employed?");
+        isEmployed.setCellValueFactory(new PropertyValueFactory<Person, String>("employedStatus"));
 
         this.tableView.getColumns().addAll(id, name, isEmployed);
         this.dataContainer.getChildren().add(this.tableView);
+    }
+
+    public List<Person> buildPeople(int quantity){
+        ArrayList<Person> people = new ArrayList<>();
+        for (int i= 0; i < quantity; i++ ){
+            people.add(Person.getFAKEInstance());
+        }
+
+        return people;
     }
 }
