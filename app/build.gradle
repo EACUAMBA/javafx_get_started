@@ -29,9 +29,12 @@ dependencies {
 
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:31.0.1-jre'
+
+    implementation 'io.github.palexdev:materialfx:11.13.5'
+    implementation 'com.jfoenix:jfoenix:9.0.10'
 }
 
 application {
     // Define the main class for the application.
-    mainClass = 'javafx_get_started.hellofx.HelloFX'
+    mainClass = 'javafx_get_started.App'
 }

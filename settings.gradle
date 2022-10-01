@@ -8,4 +8,4 @@
  */
 
 rootProject.name = 'javafx_get_started'
-include('app')
+include('app', 'introduction_to_javafx_by_baeldung')
