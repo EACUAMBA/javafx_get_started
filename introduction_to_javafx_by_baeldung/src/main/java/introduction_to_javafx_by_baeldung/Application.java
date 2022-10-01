@@ -16,7 +16,6 @@ public class Application extends javafx.application.Application {
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("/SearchController.fxml"));
         AnchorPane anchorPane = (AnchorPane) fxmlLoader.load();
         Scene scene = new Scene(anchorPane);
-
         stage.setTitle("Title of this stage.");
         stage.setScene(scene);
         stage.show();
