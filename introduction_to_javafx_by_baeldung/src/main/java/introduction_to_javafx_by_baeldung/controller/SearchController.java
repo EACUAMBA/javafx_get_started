@@ -10,6 +10,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 
 import java.util.stream.Collectors;
@@ -36,6 +37,12 @@ public class SearchController {
         this.searchButton.setText("Search");
         this.searchButton.setOnAction(event -> loadData());
         this.searchButton.setStyle("-fx-background-color: #457ecd; -fx-text-fill: #ffffff;");
+
+        this.searchField.setOnKeyPressed(event -> {
+            if(event.getCode().equals(KeyCode.ENTER)){
+                loadData();
+            }
+        });
 
         personObservableList = FXCollections.observableArrayList();
         personSearchResultObservableList = FXCollections.observableArrayList(this.personObservableList);
