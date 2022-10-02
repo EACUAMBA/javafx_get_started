@@ -48,7 +48,7 @@ public class StageInitializer implements ApplicationListener<StageReadyEvent> {
             //Com o stage em maos podemos adicionar o scene
             final Stage stage = event.getStage();
             stage.setScene(new Scene(parent, 800, 600));
-            stage.setTitle(applicationTitle + "Não");
+            stage.setTitle(applicationTitle);
             stage.show();
 
         } catch (IOException e) {
