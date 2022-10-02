@@ -1,14 +1,12 @@
 package com.eacuamba.reactive_spring_boot_and_javafx.stock_ui;
 
-import com.eacuamba.reactive_spring_boot_and_javafx.stock_client.WebClientStockClient;
+import com.eacuamba.reactive_spring_boot_and_javafx.stock_client.StockClient;
 import com.eacuamba.reactive_spring_boot_and_javafx.stock_client.StockPrice;
 
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Data;
 import javafx.scene.chart.XYChart.Series;
 import org.springframework.stereotype.Controller;
@@ -25,35 +23,35 @@ public class ChartController{
     @FXML
     public LineChart<String, BigDecimal> chart;
 
-    private WebClientStockClient webClientStockClient;
+    private final StockClient stockClient;
 
 
-    public ChartController(WebClientStockClient webClientStockClient) {
-        this.webClientStockClient = webClientStockClient;
+    public ChartController(StockClient stockClient) {
+        this.stockClient = stockClient;
     }
 
     @FXML
     public void initialize(){
         String symbol1 = "BTCUSD";
-        PriceSubcriber priceSubcriber1 = new PriceSubcriber(symbol1);
-        webClientStockClient.pricesFor(symbol1).subscribe(priceSubcriber1);
+        PriceSubscriber priceSubscriber1 = new PriceSubscriber(symbol1);
+        stockClient.pricesFor(symbol1).subscribe(priceSubscriber1);
 
         String symbol2 = "BTCNZD";
-        PriceSubcriber priceSubcriber2 = new PriceSubcriber(symbol2);
-        webClientStockClient.pricesFor(symbol2).subscribe(priceSubcriber2);
+        PriceSubscriber priceSubscriber2 = new PriceSubscriber(symbol2);
+        stockClient.pricesFor(symbol2).subscribe(priceSubscriber2);
 
         ObservableList<Series<String, BigDecimal>> data = observableArrayList();
-        data.add(priceSubcriber1.getSeries());
-        data.add(priceSubcriber2.getSeries());
+        data.add(priceSubscriber1.getSeries());
+        data.add(priceSubscriber2.getSeries());
         chart.setData(data);
     }
 
-    private static class PriceSubcriber implements Consumer<StockPrice> {
+    private static class PriceSubscriber implements Consumer<StockPrice> {
         private ObservableList<Data<String, BigDecimal>> seriesData = observableArrayList();
         private Series<String, BigDecimal> series;
         private String symbol;
 
-        public PriceSubcriber(String symbol) {
+        public PriceSubscriber(String symbol) {
             this.symbol = symbol;
             this.series = new Series<>(symbol, seriesData);
         }

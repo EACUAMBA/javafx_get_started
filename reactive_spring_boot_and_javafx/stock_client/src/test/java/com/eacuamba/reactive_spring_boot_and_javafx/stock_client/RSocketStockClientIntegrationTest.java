@@ -36,7 +36,7 @@ class RSocketStockClientIntegrationTest {
         Flux<StockPrice> prices = stockClient.pricesFor("symbol");
 
         //then
-        //assertNotNull(prices);
+        assertNotNull(prices);
         //Flux<StockPrice> fivePrices = prices.take(5);
         //Assertions.assertEquals(5,   fivePrices.count().block());
         //Assertions.assertEquals("symbol", Objects.requireNonNull(fivePrices.blockFirst()).getSymbol());

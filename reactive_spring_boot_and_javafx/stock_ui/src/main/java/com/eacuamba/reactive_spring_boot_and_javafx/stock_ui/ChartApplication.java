@@ -33,7 +33,7 @@ public class ChartApplication extends Application {
     }
 
     //Criamos uma classe que extend a AppEvent do spring com o objectivo de se tornar um evento, este evento recebe  um Stage quando for criado.
-    static class StageReadyEvent extends ApplicationEvent {
+    public static class StageReadyEvent extends ApplicationEvent {
         public StageReadyEvent(Stage stage) {
             super(stage);
             System.out.println("Event {StageReadyEvent} created...");
