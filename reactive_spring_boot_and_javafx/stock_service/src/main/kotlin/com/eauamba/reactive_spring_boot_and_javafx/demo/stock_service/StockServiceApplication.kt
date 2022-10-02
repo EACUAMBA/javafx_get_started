@@ -33,7 +33,7 @@ class RestController{
     }
 
     private fun randomStockPrice(): BigDecimal {
-        return BigDecimal.valueOf(ThreadLocalRandom.current().nextDouble(100.0)).round(MathContext(2, RoundingMode.HALF_UP));
+        return BigDecimal.valueOf(ThreadLocalRandom.current().nextDouble(1000.0)).round(MathContext(2, RoundingMode.HALF_UP));
     }
 }
 
