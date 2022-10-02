@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.time.Duration;
 
 @Log4j2
-public class WebClientStockClient {
+public class WebClientStockClient implements StockClient {
 
     private WebClient webClient;
 
