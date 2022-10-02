@@ -1,0 +1,1 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.eacuamba.reactive_spring_boot_and_javafx.stock_client.ClientConfiguration
