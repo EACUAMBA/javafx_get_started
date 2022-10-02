@@ -3,6 +3,9 @@ package com.eauamba.reactive_spring_boot_and_javafx.demo.stock_service
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.http.MediaType
+import org.springframework.messaging.handler.annotation.MessageMapping
+import org.springframework.stereotype.Controller
+import org.springframework.stereotype.Service
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
@@ -23,17 +26,30 @@ fun main(args: Array<String>) {
 }
 
 @RestController
-class RestController{
+class RestController(val priceService: PriceService) {
 
     @GetMapping(path = ["/stocks/{symbol}"],
     produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
-    fun prices(@PathVariable("symbol") symbol: String):Flux<StockPrice>{
-        return Flux.interval(Duration.ofSeconds(1))
-                .map { StockPrice(symbol, randomStockPrice(), now()) }
-    }
+    fun prices(@PathVariable("symbol") symbol: String) = priceService.generatePrices(symbol)
+
+}
+
+@Controller
+class RSocketController(val priceService: PriceService) {
+    @MessageMapping("stockPrices")
+    fun prices(symbol: String) = priceService.generatePrices(symbol)
+}
+
+@Service
+class PriceService {
 
     private fun randomStockPrice(): BigDecimal {
         return BigDecimal.valueOf(ThreadLocalRandom.current().nextDouble(1000.0)).round(MathContext(2, RoundingMode.HALF_UP));
+    }
+
+    fun generatePrices(symbol: String): Flux<StockPrice> {
+        return Flux.interval(Duration.ofSeconds(1))
+                .map { StockPrice(symbol, randomStockPrice(), now()) };
     }
 }
 
