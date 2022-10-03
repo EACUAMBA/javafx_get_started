@@ -4,7 +4,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx_using_properties_and_binding.model.Bill;
 
-public class UsingChangeListenerApp {
+public class UsingChangeListenerApp implements App.Runnable {
     public void run(){
         Bill eletricBill = new Bill();
 
